@@ -6,7 +6,7 @@
   gather_facts: False
   tasks:
     - file:
-        path: /home/ubuntu/project/Project-6/Application/
+        path: /home/ubuntu/project/Project-6/Application/cluster.pem
         owner: ubuntu
         group: ubuntu
         # when specifying mode using octal numbers, add a leading 0
