@@ -13,6 +13,9 @@
 #    - name: Setting the Facts
 #      set_fact:
 #         Tag: Group
+    - name: Install python   
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-simplejson)
+     # when: ansible_facts['Tag'] == "cluster_group"
     - name: Refresh EC2 cache
       command: /home/ubuntu/ec2.py --refresh-cache
     - name: Refresh in-memory EC2 cache
@@ -21,10 +24,6 @@
     - name: debug ansible facts
       debug:
         msg: "{{ hostvars }}"
-
-    - name: Install python   
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-simplejson)
-     # when: ansible_facts['Tag'] == "cluster_group"
 
     - name: wget splunk installation file
       get_url: 
