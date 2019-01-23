@@ -5,6 +5,12 @@
   become_method: sudo
   gather_facts: False
   tasks:
+    - file:
+        path: /home/ubuntu/project/Project-6/Application/cluster.pem
+        owner: ubuntu
+        group: ubuntu
+        # when specifying mode using octal numbers, add a leading 0
+        mode: 0600
     - name: install python
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-simplejson)
     - name: install Apache
