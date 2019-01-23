@@ -1,0 +1,58 @@
+---
+  - hosts: tag_Group_cluster
+    become: yes
+    user: ubuntu
+    become_method: sudo
+    gather_facts: False
+    tasks:
+
+#    - name: change hostname
+#      hostname:
+#        name: name_changed
+
+#    - name: Setting the Facts
+#      set_fact:
+#         Tag: Group
+    - name: Refresh EC2 cache
+      command: /home/ubuntu/ec2.py --refresh-cache
+    - name: Refresh in-memory EC2 cache
+      meta: refresh_inventory
+
+    - name: debug ansible facts
+      debug:
+        msg: "{{ hostvars }}"
+
+    - name: Install python   
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-simplejson)
+     # when: ansible_facts['Tag'] == "cluster_group"
+
+    - name: wget splunk installation file
+      get_url: 
+        url: https://s3.amazonaws.com/bhakty-files/splunk-7.2.3-06d57c595b80-linux-2.6-amd64.deb
+        dest: /tmp/splunk.deb
+    #  when: ansible_facts['Tag'] == "cluster_group"
+
+    - name: install splunk binary
+      tags:
+       - install
+      apt: deb=/tmp/splunk.deb
+   #   when: ansible_facts['Tag'] == "cluster_group"
+
+    - name: download user-seed.conf
+      get_url:
+        url: https://s3.amazonaws.com/bhakty-files/user-seed.conf
+        dest: /opt/splunk/etc/system/local/user-seed.conf
+  #    when: ansible_facts['Tag'] == "cluster_group"
+
+    - name: Accept license
+      tags:
+       - install
+      shell: /opt/splunk/bin/splunk start --accept-license --no-prompt
+ #     when: ansible_facts['Tag'] == "cluster_group"
+
+    - name: enable init script
+      tags:
+       - install
+      shell: /opt/splunk/bin/splunk enable boot-start
+      ignore_errors: yes
+#      when: ansible_facts['Tag'] == "cluster_group"
