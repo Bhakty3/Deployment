@@ -29,6 +29,6 @@ resource "aws_instance" "Application" {
  key_name = "${var.key_name}" 
  security_groups = ["cluster"]
 tags {
-  Name =" Application"
+  Name = "Application"
  }
 }
