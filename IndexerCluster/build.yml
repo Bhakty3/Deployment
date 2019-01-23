@@ -1,0 +1,27 @@
+---
+  - hosts: tag_Name_CM
+    user: ubuntu
+    gather_facts: no
+    become: yes
+    become_method: sudo
+    tasks:
+      - name: Master node
+        shell: /opt/splunk/bin/splunk edit cluster-config -mode master -replication_factor 3 -search_factor 2 -cluster_label IndexerCluster -secret patel -auth bhakty:bhakty123 ; /opt/splunk/bin/splunk restart
+
+  - hosts: tag_Name_i*
+    user: ubuntu
+    gather_facts: no
+    become: yes
+    become_method: sudo
+    tasks:
+      - name: Indexer node
+        shell: /opt/splunk/bin/splunk edit cluster-config -mode slave -master_uri https://3.87.3.250:8089 -replication_port 9887 -secret patel -auth bhakty:bhakty123 ; /opt/splunk/bin/splunk restart
+
+  - hosts: tag_Name_SH
+    user: ubuntu
+    gather_facts: no
+    become: yes
+    become_method: sudo
+    tasks:
+      - name: Indexer node
+        shell: /opt/splunk/bin/splunk edit cluster-config -mode searchhead -master_uri https://3.87.3.250:8089 -replication_port 9887 -secret patel -auth bhakty:bhakty123 ; /opt/splunk/bin/splunk restart
