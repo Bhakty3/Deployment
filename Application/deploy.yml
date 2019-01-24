@@ -15,10 +15,14 @@
     - name: ensure apache2 started
       service: name=apache2 state=started enabled=yes
 
-    - name: Copy files to remote host
-      copy:
-        src: /home/ubuntu/project/Application/index.html
+    - name: Clone from git
+      git:
+        repo: 'https://github.com/sanketbhimani/Felicific-16.git'
         dest: /var/www/html/
-       # owner: root
-       # group: root
+        force: yes
+#        owner: root
+ #       group: root
        # mode: 0777
+
+ #   - name: deploy
+#      shell: sudo mv -rp . /var/www/html
