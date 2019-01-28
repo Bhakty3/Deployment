@@ -1,0 +1,9 @@
+---
+  - hosts: tag_Name_Indexer_*
+    user: ubuntu
+    gather_facts: no
+    become: yes
+    become_method: sudo
+    tasks:
+      - name: enable receiving
+        shell: /opt/splunk/bin/splunk enable listen 9997 -auth bhakty:bhakty123 ; /opt/splunk/bin/splunk restart
