@@ -51,3 +51,8 @@
       shell: /opt/splunk/bin/splunk enable boot-start
       ignore_errors: yes
 #      when: ansible_facts['Tag'] == "cluster_group"
+
+  - import_playbook: build.yml
+  - import_playbook: receiver.yml
+  - import_playbook: forwarder.yml
+
