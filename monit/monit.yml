@@ -11,7 +11,7 @@
       apt: name=monit state=present update_cache=yes
 
     - name: monitor splunk by monit
-      shell: echo "check process splunk with pidfile /opt/splunk/var/run/splunk/splunkd.pid" >> /etc/monit/monitrc ; echo start program = "/opt/splunk/bin/splunk start" >> /etc/monit/monitrc ; echo stop program = "/opt/splunk/bin/splunk stop" >> /etc/monit/monitrc
+      shell: echo "check process splunk with pidfile /opt/splunk/var/run/splunk/splunkd.pid" >> /etc/monit/monitrc ; echo start program = "\"/opt/splunk/bin/splunk start\"" >> /etc/monit/monitrc ; echo stop program = "\"/opt/splunk/bin/splunk stop\"" >> /etc/monit/monitrc
 
     - name: check syntanx of monitrc file
       shell: sudo monit -t
