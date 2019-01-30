@@ -5,5 +5,5 @@
     become: yes
     become_method: sudo
     tasks:
-      - name: enable receiving
+      - name: enable receiving on all indexers
         shell: /opt/splunk/bin/splunk enable listen 9997 -auth bhakty:bhakty123 ; /opt/splunk/bin/splunk restart
