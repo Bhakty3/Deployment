@@ -5,54 +5,39 @@
     become_method: sudo
     gather_facts: False
     tasks:
-
-#    - name: change hostname
-#      hostname:
-#        name: name_changed
-
-#    - name: Setting the Facts
-#      set_fact:
-#         Tag: Group
     - name: Install python   
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-simplejson)
-     # when: ansible_facts['Tag'] == "cluster_group"
 
-    - name: debug ansible facts
-      debug:
-        msg: "{{ hostvars }}"
+    #- name: debug ansible facts
+    #  debug:
+    #    msg: "{{ hostvars }}"
 
-    - name: wget splunk installation file
+    - name: Download splunk installation file
       get_url: 
         url: https://s3.amazonaws.com/bhakty-files/splunk-7.2.3-06d57c595b80-linux-2.6-amd64.deb
         dest: /tmp/splunk.deb
-    #  when: ansible_facts['Tag'] == "cluster_group"
 
-    - name: install splunk binary
+    - name: Install splunk
       tags:
        - install
       apt: deb=/tmp/splunk.deb
-   #   when: ansible_facts['Tag'] == "cluster_group"
 
-    - name: download user-seed.conf
+    - name: Download user-seed.conf
       get_url:
         url: https://s3.amazonaws.com/bhakty-files/user-seed.conf
         dest: /opt/splunk/etc/system/local/user-seed.conf
-  #    when: ansible_facts['Tag'] == "cluster_group"
 
     - name: Accept license
       tags:
        - install
       shell: /opt/splunk/bin/splunk start --accept-license --no-prompt
- #     when: ansible_facts['Tag'] == "cluster_group"
 
-    - name: enable init script
+    - name: Enable boot start
       tags:
        - install
       shell: /opt/splunk/bin/splunk enable boot-start
       ignore_errors: yes
-#      when: ansible_facts['Tag'] == "cluster_group"
 
   - import_playbook: build.yml
   - import_playbook: receiver.yml
   - import_playbook: forwarder.yml
-
