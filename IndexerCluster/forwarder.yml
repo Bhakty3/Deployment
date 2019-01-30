@@ -8,26 +8,27 @@
       - name: make directory
         shell: mkdir /opt/splunkforwarder
 
-      - name: wget splunk installation file
+      - name: Download splunk-forwarder installation file
         get_url:
           url: https://s3.amazonaws.com/bhakty-files/splunkforwarder.deb
           dest: /opt/splunkforwarder/
 
-      - name: install splunk binary
+      - name: install splunk-forwarder
         tags:
           - install
         apt: deb=/opt/splunkforwarder/splunkforwarder.deb
 
       - set_fact:
           temp: "{{ hostvars[inventory_hostname]['groups']['tag_Name_Indexer_1'] | to_json }}"
+          #fetch the ip of Indexer-1
       
-      - debug: var=temp
+      #- debug: var=temp
 
-      - name: enable receiving
+      - name: enable forwarding on port 9997
         shell: /opt/splunkforwarder/bin/splunk add forward-server {{ temp }}:9997 --accept-license --no-prompt
 
-      - name: file to monitor
+      - name: Give path of file to monitor
         shell: /opt/splunkforwarder/bin/splunk add monitor /var/www/html/
 
-      - name: restart
+      - name: restart splunk-forwarder
         shell:  /opt/splunkforwarder/bin/splunk restart
