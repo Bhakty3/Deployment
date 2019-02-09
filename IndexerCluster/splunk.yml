@@ -38,6 +38,6 @@
       shell: /opt/splunk/bin/splunk enable boot-start
       ignore_errors: yes
 
-  - import_playbook: build.yml
-  - import_playbook: receiver.yml
-  - import_playbook: forwarder.yml
+ # - import_playbook: build.yml
+ # - import_playbook: receiver.yml
+ # - import_playbook: forwarder.yml
