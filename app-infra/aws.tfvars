@@ -1,3 +1,3 @@
-aws_access_key = "AKIAIHWZQC77T3MH34MQ"
-aws_secret_key = "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"
+aws_access_key = "AKIAI24KTSAYZNVFTMVQ"
+aws_secret_key = "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"
 private_key_path = "/home/ubuntu/terraform/cluster.pem"

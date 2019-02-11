@@ -5,7 +5,6 @@
     become: yes
     become_method: sudo
     tasks:
-     
       - name: Master node
         shell: /opt/splunk/bin/splunk edit cluster-config -mode master -replication_factor 3 -search_factor 2 -cluster_label IndexerCluster -secret patel -auth bhakty:bhakty123 ; /opt/splunk/bin/splunk restart
 
@@ -17,6 +16,7 @@
     tasks:
       - set_fact:
           temp: "{{ hostvars[inventory_hostname]['groups']['tag_Name_ClusterMaster'] | to_json }}"
+          #fetch the ip of ClusterMaster
  
       - name: Indexer node
         shell: /opt/splunk/bin/splunk edit cluster-config -mode slave -master_uri https://{{ temp }}:8089 -replication_port 9887 -secret patel -auth bhakty:bhakty123 ; /opt/splunk/bin/splunk restart
@@ -29,6 +29,7 @@
     tasks:
       - set_fact:
           temp: "{{ hostvars[inventory_hostname]['groups']['tag_Name_ClusterMaster'] | to_json }}"
+          #fetch the ip of ClusterMaster
 
       - name: SearchHead node
         shell: /opt/splunk/bin/splunk edit cluster-config -mode searchhead -master_uri https://{{ temp }}:8089 -replication_port 9887 -secret patel -auth bhakty:bhakty123 ; /opt/splunk/bin/splunk restart
