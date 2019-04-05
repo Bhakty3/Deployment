@@ -31,7 +31,7 @@
         shell: /opt/splunkforwarder/bin/splunk add forward-server {{ temp }}:9997 --accept-license --no-prompt
 
       - name: Give path of file to monitor
-        shell: /opt/splunkforwarder/bin/splunk add monitor /var/www/html/
+        shell: /opt/splunkforwarder/bin/splunk add monitor /var/log/
 
       - name: restart splunk-forwarder
         shell:  /opt/splunkforwarder/bin/splunk restart
