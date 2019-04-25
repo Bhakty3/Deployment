@@ -24,7 +24,7 @@ provider "aws" {
 #####################
 
 resource "aws_instance" "Application" {
- ami = "ami-0f9cf087c1f27d9b1" 
+ ami = "ami-0565af6e282977273" 
  instance_type = "t2.micro" 
  key_name = "${var.key_name}" 
  security_groups = ["cluster"]
